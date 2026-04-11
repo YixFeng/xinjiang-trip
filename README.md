@@ -22,7 +22,13 @@
 
 ## 安装
 
-按照 [Agent Skills 规范](https://agentskills.io/what-are-skills)，把文件夹放进你的 skills 目录：
+一行命令安装（[skills.sh](https://skills.sh) 生态）：
+
+```bash
+npx skills add hiyeshu/trip-map-builder
+```
+
+或者手动 clone 到 skills 目录：
 
 ```bash
 # Cursor
