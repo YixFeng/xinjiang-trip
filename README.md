@@ -75,7 +75,11 @@ git clone https://github.com/hiyeshu/trip-map-builder.git ~/.claude/skills/trip-
 
 - Leaflet.js 交互地图（无需 API key）
 - 按天切换的时间轴卡片
-- 每个地点：Google Maps 导航链接、小红书笔记链接、预约按钮
+- 每个地点：
+  - 📍 **导航**：Action Sheet 三选——Apple Maps / Google Maps / 🧭 **高德地图 App**（直接 scheme 唤起，不打开网页）
+  - 📕 **小红书 App**：UA 检测，正常浏览器走 `xhsdiscover://` scheme，微信/抖音等 WebView 内自动降级到 m 站
+  - 🍜 **大众点评 App**：`food` / `drink` 类型自动启用，可用 `dianping: false` 关闭，或 `dianpingKeyword` 自定义搜索词
+  - 📅 预约按钮（可选）
 - 支付方式标签（信用卡 / 支付宝 / 交通卡 / 现金）
 - 默认 Apple 设计系统，可通过 [awesome-design-md](https://github.com/VoltAgent/awesome-design-md) 切换风格
 

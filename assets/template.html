@@ -403,13 +403,11 @@ window._xhsLocs = window._extLocs;
 
 function openExt(key, kind) {
   const loc = window._extLocs[key]; if(!loc) return false;
-  const web = kind==='dp' ? dpWebUrl(loc) : xhsWebUrl(loc);
-  if (IN_APP_WEBVIEW) { window.location.href = web; return false; }
-  const app = kind==='dp' ? dpAppUrl(loc) : xhsAppUrl(loc);
-  const fb = setTimeout(() => { window.location.href = web; }, 900);
-  const cl = () => { clearTimeout(fb); document.removeEventListener('visibilitychange', cl); };
-  document.addEventListener('visibilitychange', cl);
-  window.location.href = app;
+  if (IN_APP_WEBVIEW) {
+    window.location.href = kind==='dp' ? dpWebUrl(loc) : xhsWebUrl(loc);
+  } else {
+    window.location.href = kind==='dp' ? dpAppUrl(loc) : xhsAppUrl(loc);
+  }
   return false;
 }
 function openXhs(key) { return openExt(key, 'xhs'); }
@@ -427,7 +425,9 @@ function locCard(loc, dayIdx) {
     const xhsLabel = IN_APP_WEBVIEW ? '📕 小红书' : '📕 小红书 App';
     lnk += `<a href="${xhsHref}" onclick="return openXhs('${locKey.replace(/'/g,"\\'")}')" class="btn xhs">${xhsLabel}</a>`;
   }
-  if(loc.dianping||loc.dianpingKeyword) {
+  const dpEnabled = loc.dianping !== false &&
+    (loc.dianping || loc.dianpingKeyword || loc.type==='food' || loc.type==='drink');
+  if(dpEnabled) {
     const dpHref = IN_APP_WEBVIEW ? dpWebUrl(loc) : dpAppUrl(loc);
     const dpLabel = IN_APP_WEBVIEW ? '🍜 大众点评' : '🍜 大众点评 App';
     lnk += `<a href="${dpHref}" onclick="return openDp('${locKey.replace(/'/g,"\\'")}')" class="btn dp">${dpLabel}</a>`;
@@ -485,19 +485,32 @@ asOverlay.innerHTML = `<div class="as-sheet">
 document.body.appendChild(asOverlay);
 asOverlay.addEventListener('click', e => { if (e.target === asOverlay) closeAS(); });
 
+const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+function amapAppUrl(name, lat, lng) {
+  const scheme = IS_IOS ? 'iosamap' : 'androidamap';
+  return `${scheme}://viewMap?sourceApplication=trip&poiname=${encodeURIComponent(name)}&lat=${lat}&lon=${lng}&dev=0`;
+}
+function amapWebUrl(name, lat, lng) {
+  return `https://uri.amap.com/marker?position=${lng},${lat}&name=${encodeURIComponent(name)}&src=trip&coordinate=wgs84&callnative=1`;
+}
+function openAmap(name, lat, lng) {
+  if (IN_APP_WEBVIEW) { window.open(amapWebUrl(name, lat, lng)); return; }
+  window.location.href = amapAppUrl(name, lat, lng);
+}
+
 function openAS(name, lat, lng, gmap) {
   const q = gmap || encodeURIComponent(name + ' Tokyo');
   const encName = encodeURIComponent(name);
+  const safeName = name.replace(/'/g,"\\'");
   // WebView 内 maps:// 通常被拦截，改用 https Apple Maps URL —— iOS 系统会自动拉起 Apple Maps
   const appleUrl = IN_APP_WEBVIEW
     ? `https://maps.apple.com/?q=${lat},${lng}&ll=${lat},${lng}&name=${encName}`
     : `maps://maps.apple.com/?q=${lat},${lng}&name=${encName}`;
   const googleUrl = `https://www.google.com/maps/search/?api=1&query=${q}`;
-  const amapUrl = `https://uri.amap.com/marker?position=${lng},${lat}&name=${encName}&src=trip&coordinate=wgs84&callnative=1`;
   document.getElementById('as-opts').innerHTML =
     `<button class="as-item" onclick="window.open('${appleUrl}');closeAS()">🍎 Apple Maps</button>` +
     `<button class="as-item" onclick="window.open('${googleUrl}');closeAS()">🗺️ Google Maps</button>` +
-    `<button class="as-item" onclick="window.open('${amapUrl}');closeAS()">🧭 高德地图</button>`;
+    `<button class="as-item" onclick="openAmap('${safeName}',${lat},${lng});closeAS()">🧭 高德地图 App</button>`;
   asOverlay.classList.add('show');
 }
 function closeAS() { asOverlay.classList.remove('show'); }
