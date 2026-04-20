@@ -162,6 +162,7 @@ a:hover { text-decoration: underline; }
 .btn:active { filter: brightness(.9); }
 .btn.nav    { background: var(--accent); color: #fff; }
 .btn.xhs    { background: #ff2442; color: #fff; }
+.btn.dp     { background: #ffa700; color: #fff; }
 .btn.rsv    { background: var(--tint-green); color: #fff; }
 
 /* Action Sheet */
@@ -253,6 +254,8 @@ const DAYS = [
   //   pay: { cash: 1, card: 1, suica: 0.5 }, // optional, 1=yes 0.5=maybe
   //   xhs: 'https://...',     // optional 小红书 link
   //   xhsKeyword: '搜索词',    // optional, overrides name for XHS search
+  //   dianping: 'https://...',     // optional 大众点评 link (presence enables button)
+  //   dianpingKeyword: '搜索词',   // optional, overrides name for 大众点评 search
   //   reserve: 'https://...', // optional reservation link
   //   gmap: 'Google+Maps+Search+Query'
   // }
@@ -374,6 +377,12 @@ function payChips(pay) {
   return h+'</div>';
 }
 
+// ── 运行环境检测：在第三方 App 的 WebView 里，自定义 scheme 基本会被拦截 ──
+const IN_APP_WEBVIEW = (() => {
+  const ua = (navigator.userAgent || '').toLowerCase();
+  return /micromessenger|xhs|xhsdiscover|discover\/|tiktok|aweme|weibo|qq\/|qqbrowser|alipayclient|dingtalk|lark|feishu|ucbrowser|baiduboxapp|toutiao|newsarticle/.test(ua);
+})();
+
 function xhsKeyword(loc) {
   if(loc.xhsKeyword) return loc.xhsKeyword.trim();
   return (loc.name||'').replace(/⭐.*$/g,'').replace(/（.*?）/g,'').replace(/\(.*?\)/g,'').replace(/\s+/g,' ').trim();
@@ -381,18 +390,30 @@ function xhsKeyword(loc) {
 function xhsAppUrl(loc) { return `xhsdiscover://search/result?keyword=${encodeURIComponent(xhsKeyword(loc))}&target_search=notes&source=deeplink`; }
 function xhsWebUrl(loc) { return `https://www.xiaohongshu.com/search_result?keyword=${encodeURIComponent(xhsKeyword(loc))}&source=web_explore_feed`; }
 
-window._xhsLocs = {};
-DAYS.forEach(d => d.locations.forEach(l => { window._xhsLocs[`${d.id}::${l.name}`] = l; }));
+function dpKeyword(loc) {
+  if(loc.dianpingKeyword) return loc.dianpingKeyword.trim();
+  return (loc.name||'').replace(/⭐.*$/g,'').replace(/（.*?）/g,'').replace(/\(.*?\)/g,'').replace(/\s+/g,' ').trim();
+}
+function dpAppUrl(loc) { return `dianping://searchshoplist?keyword=${encodeURIComponent(dpKeyword(loc))}`; }
+function dpWebUrl(loc) { return `https://m.dianping.com/searchshop?keyword=${encodeURIComponent(dpKeyword(loc))}`; }
 
-function openXhs(key) {
-  const loc = window._xhsLocs[key]; if(!loc) return false;
-  const app = xhsAppUrl(loc), web = xhsWebUrl(loc);
+window._extLocs = {};
+DAYS.forEach(d => d.locations.forEach(l => { window._extLocs[`${d.id}::${l.name}`] = l; }));
+window._xhsLocs = window._extLocs;
+
+function openExt(key, kind) {
+  const loc = window._extLocs[key]; if(!loc) return false;
+  const web = kind==='dp' ? dpWebUrl(loc) : xhsWebUrl(loc);
+  if (IN_APP_WEBVIEW) { window.location.href = web; return false; }
+  const app = kind==='dp' ? dpAppUrl(loc) : xhsAppUrl(loc);
   const fb = setTimeout(() => { window.location.href = web; }, 900);
   const cl = () => { clearTimeout(fb); document.removeEventListener('visibilitychange', cl); };
   document.addEventListener('visibilitychange', cl);
   window.location.href = app;
   return false;
 }
+function openXhs(key) { return openExt(key, 'xhs'); }
+function openDp(key)  { return openExt(key, 'dp'); }
 
 function locCard(loc, dayIdx) {
   const dot = loc.type==='food'?'food':loc.type==='spot'?'spot':loc.type==='drink'?'drink':loc.type==='hotel'?'hotel':'transport';
@@ -401,7 +422,16 @@ function locCard(loc, dayIdx) {
   const locKey = `${dayIdx}::${loc.name}`;
   const gmapQ = loc.gmap||encodeURIComponent(loc.name+' Tokyo');
   let lnk = `<button class="btn nav" onclick="openAS('${loc.name.replace(/'/g,"\\'")}',${loc.lat},${loc.lng},'${gmapQ}')">📍 导航</button>`;
-  if(loc.xhs||loc.xhsKeyword) lnk += `<a href="${xhsAppUrl(loc)}" onclick="return openXhs('${locKey.replace(/'/g,"\\'")}')" class="btn xhs">📕 小红书 App</a>`;
+  if(loc.xhs||loc.xhsKeyword) {
+    const xhsHref = IN_APP_WEBVIEW ? xhsWebUrl(loc) : xhsAppUrl(loc);
+    const xhsLabel = IN_APP_WEBVIEW ? '📕 小红书' : '📕 小红书 App';
+    lnk += `<a href="${xhsHref}" onclick="return openXhs('${locKey.replace(/'/g,"\\'")}')" class="btn xhs">${xhsLabel}</a>`;
+  }
+  if(loc.dianping||loc.dianpingKeyword) {
+    const dpHref = IN_APP_WEBVIEW ? dpWebUrl(loc) : dpAppUrl(loc);
+    const dpLabel = IN_APP_WEBVIEW ? '🍜 大众点评' : '🍜 大众点评 App';
+    lnk += `<a href="${dpHref}" onclick="return openDp('${locKey.replace(/'/g,"\\'")}')" class="btn dp">${dpLabel}</a>`;
+  }
   if(loc.reserve) lnk += `<a href="${loc.reserve}" target="_blank" class="btn rsv">📅 预约</a>`;
   return `<div class="tl-item"><div class="tl-dot ${dot}"></div><div class="card" onclick="if(!event.target.closest('.btn,.links'))toggle('${uid}')"><div class="time">${loc.time!=='—'?loc.time:'备选'}</div><div class="name">${bdg} ${loc.name}</div><div class="desc">${loc.desc}</div>${loc.budget?'<div class="budget">'+loc.budget+'</div>':''}${payChips(loc.pay)}<div class="links">${lnk}</div>${loc.detail?'<div class="details" id="'+uid+'">'+loc.detail.replace(/\n/g,'<br>')+'</div>':''}</div></div>`;
 }
@@ -457,11 +487,17 @@ asOverlay.addEventListener('click', e => { if (e.target === asOverlay) closeAS()
 
 function openAS(name, lat, lng, gmap) {
   const q = gmap || encodeURIComponent(name + ' Tokyo');
-  const appleUrl = `maps://maps.apple.com/?q=${lat},${lng}&name=${encodeURIComponent(name)}`;
+  const encName = encodeURIComponent(name);
+  // WebView 内 maps:// 通常被拦截，改用 https Apple Maps URL —— iOS 系统会自动拉起 Apple Maps
+  const appleUrl = IN_APP_WEBVIEW
+    ? `https://maps.apple.com/?q=${lat},${lng}&ll=${lat},${lng}&name=${encName}`
+    : `maps://maps.apple.com/?q=${lat},${lng}&name=${encName}`;
   const googleUrl = `https://www.google.com/maps/search/?api=1&query=${q}`;
+  const amapUrl = `https://uri.amap.com/marker?position=${lng},${lat}&name=${encName}&src=trip&coordinate=wgs84&callnative=1`;
   document.getElementById('as-opts').innerHTML =
     `<button class="as-item" onclick="window.open('${appleUrl}');closeAS()">🍎 Apple Maps</button>` +
-    `<button class="as-item" onclick="window.open('${googleUrl}');closeAS()">🗺️ Google Maps</button>`;
+    `<button class="as-item" onclick="window.open('${googleUrl}');closeAS()">🗺️ Google Maps</button>` +
+    `<button class="as-item" onclick="window.open('${amapUrl}');closeAS()">🧭 高德地图</button>`;
   asOverlay.classList.add('show');
 }
 function closeAS() { asOverlay.classList.remove('show'); }
