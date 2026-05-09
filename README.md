@@ -2,7 +2,9 @@
 
 从零散信息到可部署的交互式行程地图页面。
 
-三阶段流水线：**规划行程 → 小红书调研 → 生成地图页面**。
+三阶段流水线：**规划行程 → 大众点评/小红书调研 → 生成地图页面**。
+
+定位：生成出发前的参考坐标，不是假装旅行会逐小时照做的执行脚本。
 
 ## Demo
 
@@ -15,8 +17,8 @@
 给 AI agent 一套完整的旅行规划工作流：
 
 1. 用户丢过来机票截图、酒店截图、想去的地方
-2. Agent 提取硬约束（日期、航班、酒店位置），按区域分组，主动删掉塞不下的点
-3. 通过 [OpenCLI](https://github.com/jackwener/OpenCLI) + Chrome CDP 上小红书搜店，提取真实评价
+2. Agent 提取硬约束（日期、航班、酒店位置），按区域分组，主动删掉塞不下的点，并标记天气敏感点
+3. 餐厅按当天区域给候选，用大众点评 + 小红书判断口味、排队、踩雷、氛围和近期体验
 4. 生成单文件 HTML 页面：Leaflet 地图 + 时间轴卡片 + Google Maps 导航 + 小红书链接 + 支付方式标签
 5. 推到 GitHub，Vercel 自动部署，手机打开直接用
 
@@ -55,13 +57,17 @@ git clone https://github.com/hiyeshu/trip-map-builder.git ~/.claude/skills/trip-
 核心原则：
 - 一天一个主区域
 - 不是越满越好，是越顺越好
+- 行程是参考坐标，真实执行可以被天气、当前位置、体力和饥饿程度覆盖
+- 餐厅是当天区域内的顺路候选，不为名店反向扭曲路线
 - 替用户删东西，说清楚删了什么、为什么删
 
 详见 [`references/trip-planning.md`](references/trip-planning.md)
 
-### Phase 2：小红书调研
+### Phase 2：大众点评 + 小红书调研
 
-用 OpenCLI 的 CDPBridge 连接 Chrome，直接访问小红书搜索结果页路由，拦截 `search/notes` API，提取前排笔记。
+餐厅优先看大众点评和小红书：大众点评判断口味、排队、踩雷、值不值得；小红书补氛围、近期体验、拍照和软性提醒。
+
+小红书可用 OpenCLI 的 CDPBridge 连接 Chrome，直接访问搜索结果页路由，拦截 `search/notes` API，提取前排笔记。
 
 关键经验：**不要模拟输入框**，直接进 `search_result?keyword=` 路由更稳定。
 

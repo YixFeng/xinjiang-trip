@@ -1,19 +1,24 @@
 ---
 name: trip-map-builder
 description: >
-  End-to-end trip planning: gather user constraints, build itinerary, research
-  locations via 小红书 (OpenCLI + Chrome CDP), then generate an interactive
-  mobile-first map page (Leaflet + timeline) and optionally deploy to Vercel.
-  Use when user asks to plan a trip, create an itinerary, research restaurants
-  on 小红书, build a trip map page, or says "行程规划", "行程地图", "trip map",
-  "plan my trip", "做个行程". Covers the full pipeline from scattered inputs
-  (screenshots, wishlists) to a deployable single-page app with Google Maps
-  links, 小红书 links, payment info, and reservation buttons.
+  End-to-end trip planning: gather user constraints, build a reference
+  itinerary, research locations and dining signals via 大众点评 + 小红书, then
+  generate an interactive mobile-first map page (Leaflet + timeline) and
+  optionally deploy to Vercel. Use when user asks to plan a trip, create an
+  itinerary, research restaurants on 大众点评/小红书, build a trip map page, or
+  says "行程规划", "行程地图", "trip map", "plan my trip", "做个行程". Covers the full
+  pipeline from scattered inputs (screenshots, wishlists) to a deployable
+  reference map with navigation links, 小红书 links, payment info, and
+  reservation buttons.
 ---
 
 # Trip Map Builder
 
 Three-phase pipeline: **Plan → Research → Build**.
+
+The output is a **reference itinerary**, not a script the traveler must obey.
+During the trip, weather, current location, fatigue, and hunger can override
+the original plan.
 
 ## Phase 1: Plan the itinerary
 
@@ -25,21 +30,27 @@ Core sequence:
 2. **Group user's wishlist** — city-easy / needs-reservation / far-suburbs / pass-through
 3. **Cut high-risk items first** — too far, holiday-crowded, weather-dependent. Say what was cut and why.
 4. **Arrange by area** — one main area per day, first day light, last day close to airport
-5. **Fill in meals** — route-proximity first, vibe second, fame last. Always give main + backup.
+5. **Fill in meals** — daily-area candidates first, 大众点评 + 小红书 signals second, fame last.
 6. **Add tickets & transport** — only critical ones (museum tickets, airport transfer)
-7. **Write executable doc** — conclusion first, then daily plan, then what was cut
+7. **Write reference doc** — conclusion first, then daily plan, weather-sensitive spots, meal areas, and what was cut
 
 Key principles:
 - Not everything the user listed fits. Delete for them.
 - One area per day. One reservation-required spot per day max.
 - Itineraries should be smooth, not packed.
+- The plan gives coordinates for later adjustment; it does not pretend reality will follow the timeline.
 - All user-facing questions follow the **4-beat format**: Re-ground → Simplify → Recommend → Options. See `references/trip-planning.md` § 用户交互 for examples and anti-patterns.
 
-## Phase 2: Research via 小红书
+## Phase 2: Research via 大众点评 + 小红书
 
 Read `references/xhs-research.md` for the full OpenCLI + CDP workflow.
 
-Core sequence:
+For restaurants, use 大众点评 as the main Chinese dining signal for taste,
+queue risk, value, and obvious traps. Use 小红书 to supplement atmosphere,
+recent experience, photo-worthiness, and soft warnings. Do not bend a whole
+day around a famous restaurant unless it is already on the route.
+
+小红书 core sequence:
 
 1. Launch Chrome with `--remote-debugging-port=9223`
 2. Connect via OpenCLI's `CDPBridge`
