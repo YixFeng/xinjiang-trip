@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>博乐接机与赛里木湖家庭行程地图</title>
+<meta name="description" content="6人三地出发，在博乐会合后前往温泉镇与赛里木湖的参考行程地图">
+<link rel="icon" href="data:,">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+/* ═══════════════════════════════════════════
+   Design System — edit :root to change theme
+   ═══════════════════════════════════════════ */
+:root {
+  --bg-primary:    #ffffff;
+  --bg-secondary:  #f5f5f7;
+  --bg-tertiary:   #fbfbfd;
+  --bg-grouped:    #f2f2f7;
+  --bg-elevated:   #ffffff;
+  --text-primary:   #1d1d1f;
+  --text-secondary: #86868b;
+  --text-tertiary:  #aeaeb2;
+  --accent:        #0071e3;
+  --accent-hover:  #0077ed;
+  --tint-red:    #ff3b30;
+  --tint-orange: #ff9500;
+  --tint-green:  #34c759;
+  --tint-blue:   #007aff;
+  --tint-purple: #af52de;
+  --tint-pink:   #ff2d55;
+  --separator:  rgba(60, 60, 67, .12);
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:  0 4px 14px rgba(0,0,0,.08);
+  --shadow-lg:  0 8px 30px rgba(0,0,0,.12);
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+               "Helvetica Neue", "Arial", sans-serif;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.47059;
+  letter-spacing: 0;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Map ── */
+#map { width: 100%; height: 40vh; min-height: 280px; position: sticky; top: 0; z-index: 100; }
+.locate-btn {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
+  border: none; box-shadow: 0 1px 4px rgba(0,0,0,.18);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.locate-btn.active { color: #007aff; }
+@keyframes loc-pulse {
+  0%   { transform: scale(1); opacity: .55; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.loc-pulse {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: rgba(0,122,255,.25);
+  animation: loc-pulse 1.6s ease-out infinite;
+}
+
+/* ── Tabs ── */
+.tabs {
+  display: flex; gap: 6px; padding: 12px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  background: rgba(255,255,255,.85); -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px); position: sticky; top: 40vh; z-index: 99;
+  border-bottom: .5px solid var(--separator); scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0; padding: 7px 16px; border-radius: 980px; border: none;
+  background: var(--bg-grouped); color: var(--text-secondary);
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: all .25s ease;
+  white-space: nowrap; letter-spacing: -0.01em;
+}
+.tab:active { transform: scale(.96); }
+.tab.active { background: var(--accent); color: #fff; }
+
+/* ── Main content ── */
+.content { max-width: 680px; margin: 0 auto; padding: 16px 16px calc(24px + var(--safe-bottom)); }
+
+/* ── Overview ── */
+.hero { text-align: center; padding: 28px 20px 20px; }
+.hero h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.15; }
+.hero .subtitle { font-size: 17px; color: var(--text-secondary); margin-top: 6px; font-weight: 400; }
+
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.info-card { background: var(--bg-elevated); border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-sm); }
+.info-card .label { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .02em; margin-bottom: 6px; }
+.info-card .value { font-size: 15px; font-weight: 600; line-height: 1.4; }
+
+/* ── Section headers ── */
+.section-head { font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .03em; padding: 20px 0 8px; }
+
+/* ── Day header ── */
+.day-head { padding: 20px 0 12px; }
+.day-head h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.day-head p { font-size: 15px; color: var(--text-secondary); margin-top: 2px; }
+
+/* ── Route bar ── */
+.route-bar { background: var(--bg-elevated); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 14px; box-shadow: var(--shadow-sm); font-size: 13px; color: var(--text-secondary); line-height: 1.7; white-space: pre-line; }
+.route-bar strong { color: var(--text-primary); }
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before { content: ''; position: absolute; left: 7px; top: 20px; bottom: 20px; width: 1.5px; background: var(--separator); }
+.tl-item { position: relative; margin-bottom: 10px; }
+.tl-dot { position: absolute; left: -20px; top: 18px; width: 10px; height: 10px; border-radius: 50%; z-index: 1; box-shadow: 0 0 0 3px var(--bg-secondary); }
+.tl-dot.food    { background: var(--tint-red); }
+.tl-dot.spot    { background: var(--tint-blue); }
+.tl-dot.hotel   { background: var(--tint-orange); }
+.tl-dot.drink   { background: var(--tint-purple); }
+.tl-dot.transport { background: var(--text-tertiary); }
+
+/* ── Card ── */
+.card { background: var(--bg-elevated); border-radius: var(--radius-md); padding: 14px 16px; box-shadow: var(--shadow-sm); transition: box-shadow .25s ease; cursor: pointer; }
+.card:active { box-shadow: var(--shadow-md); }
+.card .time { font-size: 12px; font-weight: 600; color: var(--text-tertiary); letter-spacing: .01em; }
+.card .name { font-size: 17px; font-weight: 600; margin: 2px 0 4px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 6px; }
+.card .desc { font-size: 14px; color: var(--text-secondary); line-height: 1.45; }
+
+/* Badge */
+.badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 4px; }
+.badge.food   { background: rgba(255,59,48,.1);  color: var(--tint-red); }
+.badge.spot   { background: rgba(0,122,255,.1);  color: var(--tint-blue); }
+.badge.drink  { background: rgba(175,82,222,.1); color: var(--tint-purple); }
+
+/* Budget */
+.budget { display: inline-block; margin-top: 6px; padding: 3px 10px; background: var(--bg-grouped); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+
+/* Payment */
+.pays { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+.pay { font-size: 11px; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+.pay.ok  { background: rgba(52,199,89,.1);  color: var(--tint-green); }
+.pay.no  { background: rgba(255,59,48,.08); color: var(--tint-red); }
+.pay.idk { background: rgba(255,149,0,.1);  color: var(--tint-orange); }
+
+/* Links row */
+.links { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600; border: none; cursor: pointer;
+  text-decoration: none !important; transition: filter .2s;
+}
+.btn:active { filter: brightness(.9); }
+.btn.nav    { background: var(--accent); color: #fff; }
+.btn.xhs    { background: #ff2442; color: #fff; }
+.btn.dp     { background: #ffa700; color: #fff; }
+.btn.rsv    { background: var(--tint-green); color: #fff; }
+
+/* Action Sheet */
+.as-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,.35); backdrop-filter: blur(2px);
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.as-overlay.show { opacity: 1; pointer-events: auto; }
+.as-sheet {
+  width: 100%; max-width: 420px;
+  padding: 0 8px 34px;
+  transform: translateY(100%); transition: transform .3s cubic-bezier(.22,1,.36,1);
+}
+.as-overlay.show .as-sheet { transform: translateY(0); }
+.as-group {
+  background: rgba(255,255,255,.88); backdrop-filter: blur(20px);
+  border-radius: 14px; overflow: hidden; margin-bottom: 8px;
+}
+.as-group .as-item {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 16px; font-size: 18px; color: #007aff; font-weight: 500;
+  border: none; background: none; width: 100%; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.as-group .as-item + .as-item { border-top: .5px solid rgba(0,0,0,.12); }
+.as-group .as-item:active { background: rgba(0,0,0,.06); }
+.as-cancel { font-weight: 600; }
+
+/* Details — default open */
+.details {
+  margin-top: 10px; padding-top: 10px;
+  border-top: .5px solid var(--separator);
+  font-size: 13px; color: var(--text-secondary); line-height: 1.6;
+}
+.details.closed { display: none; }
+
+/* ── Overview day list ── */
+.day-list .card { margin-bottom: 8px; }
+.day-list .card .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+
+/* ── Payment summary ── */
+.pay-summary { background: var(--bg-elevated); border-radius: var(--radius-md); padding: 14px 16px; box-shadow: var(--shadow-sm); font-size: 13px; line-height: 1.7; margin-bottom: 10px; }
+.pay-summary h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.pay-summary .warn { color: var(--tint-red); }
+.pay-summary .ok-text { color: var(--tint-green); }
+.flight-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.flight-shot {
+  border: none; border-radius: var(--radius-sm); background: var(--bg-grouped);
+  color: var(--accent); font-size: 13px; font-weight: 700;
+  padding: 8px 12px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.flight-shot:active { filter: brightness(.94); }
+
+/* ── Flight image modal ── */
+.img-modal {
+  position: fixed; inset: 0; z-index: 10000; padding: 18px;
+  background: rgba(0,0,0,.72); display: none; align-items: center; justify-content: center;
+}
+.img-modal.show { display: flex; }
+.img-modal-card {
+  width: min(100%, 820px); max-height: calc(100vh - 36px);
+  background: var(--bg-elevated); border-radius: var(--radius-lg);
+  overflow: hidden; box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column;
+}
+.img-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px 14px; border-bottom: .5px solid var(--separator);
+}
+.img-modal-title { font-size: 15px; font-weight: 700; }
+.img-modal-close {
+  width: 32px; height: 32px; border: none; border-radius: 50%;
+  background: var(--bg-grouped); color: var(--text-primary);
+  font-size: 20px; line-height: 1; cursor: pointer;
+}
+.img-modal-img { width: 100%; height: auto; max-height: calc(100vh - 112px); object-fit: contain; background: #fff; }
+
+/* ── Legend ── */
+.legend { display: flex; gap: 14px; flex-wrap: wrap; padding: 8px 0; font-size: 12px; color: var(--text-secondary); }
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ── Leaflet overrides ── */
+.leaflet-popup-content-wrapper { border-radius: var(--radius-md) !important; box-shadow: var(--shadow-lg) !important; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif !important; }
+.leaflet-popup-content { font-size: 14px !important; line-height: 1.5 !important; margin: 12px 14px !important; }
+.leaflet-popup-content a { color: var(--accent) !important; }
+.leaflet-popup-tip { background: #fff !important; }
+.leaflet-control-zoom a { width: 34px !important; height: 34px !important; line-height: 34px !important; font-size: 16px !important; border-radius: 10px !important; background: rgba(255,255,255,.85) !important; -webkit-backdrop-filter: blur(10px) !important; backdrop-filter: blur(10px) !important; border: .5px solid var(--separator) !important; color: var(--text-primary) !important; }
+.leaflet-control-zoom { border-radius: 12px !important; overflow: hidden; box-shadow: var(--shadow-md) !important; border: none !important; }
+.leaflet-control-attribution { font-size: 9px !important; opacity: .5; }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+<div class="tabs" id="tabs"></div>
+<div class="content" id="content"></div>
+
+<script>
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  REPLACE THIS SECTION — Hotel and Days data                 ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+const HOTEL = { name: '全季酒店（博乐店）', lat: 44.888796, lng: 82.062424 };
+
+const DAYS = [
+  { id: 0, label: '总览', color: '#0071e3', locations: [] },
+  {
+    id: 1,
+    label: '6/12',
+    date: '2026年6月12日 · 周五',
+    title: '广州组先到，晚间接郑州组',
+    color: '#0a84ff',
+    locations: [
+      {
+        name: '广州组抵达 · 3U6710/3U6569',
+        lat: 44.8982786,
+        lng: 82.2853039,
+        type: 'transport',
+        time: '15:15',
+        desc: '广州白云 07:05 起飞，经成都天府转机，15:15 抵达博乐阿拉山口机场。',
+        detail: '你和太太先落地。建议取车/叫车后直接进博乐市区，不在机场长时间等待。\n导航锚点使用博乐阿拉山口机场。',
+        gmap: 'Bole Alashankou Airport'
+      },
+      {
+        name: '全季酒店（博乐店）',
+        lat: 44.888796,
+        lng: 82.062424,
+        type: 'hotel',
+        time: '16:00',
+        desc: '入住博乐市区酒店，位置在新华路中央广场，方便吃饭、补给和第二天上午轻逛。',
+        detail: '地址：博乐克尔根卓街道新华路中央广场7号楼1层3-01铺。\n携程坐标：82.062424, 44.888796。\n建议到店后先确认次日退房、停车、早餐时间，以及6人行李装车空间。',
+        reserve: 'https://m.ctrip.com/html5/hotel/hoteldetail/68022929.html',
+        gmap: 'JI Hotel Bole Xinjiang'
+      },
+      {
+        name: '从酒店出发接郑州组',
+        lat: 44.888796,
+        lng: 82.062424,
+        type: 'transport',
+        time: '18:50',
+        desc: '从全季出发去机场。按市区到机场约25-35分钟估算，留出停车和等行李时间。',
+        detail: '郑州组航班：FU6551 郑州新郑 11:20-16:10 红旗坡机场；G54907 18:30-19:40 抵达博乐阿拉山口机场。\n如果航班提前或延误，优先让你爸妈到到达口集合，不需要你们过早离开酒店。',
+        gmap: 'JI Hotel Bole Xinjiang'
+      },
+      {
+        name: '郑州组抵达 · FU6551/G54907',
+        lat: 44.8982786,
+        lng: 82.2853039,
+        type: 'transport',
+        time: '19:40',
+        desc: '接上爸妈后返回博乐市区。当天不排景点，只解决晚饭和休息。',
+        detail: '建议晚餐选酒店附近或中央广场附近，避免再开远路。第二天上午还有轻量活动，12日晚核心目标是把人接齐、睡好。',
+        gmap: 'Bole Alashankou Airport'
+      },
+      {
+        name: '全季酒店（博乐店）',
+        lat: 44.888796,
+        lng: 82.062424,
+        type: 'hotel',
+        time: '20:30',
+        desc: '返回酒店休息。12日晚住宿锚点固定在全季酒店（博乐店）。',
+        detail: '晚上只做低强度安排：入住、晚饭、整理证件和第二天接机时间。'
+      }
+    ]
+  },
+  {
+    id: 2,
+    label: '6/13',
+    date: '2026年6月13日 · 周六',
+    title: '市区轻逛，接北京组后去温泉镇',
+    color: '#34c759',
+    locations: [
+      {
+        name: '全季酒店（博乐店）',
+        lat: 44.888796,
+        lng: 82.062424,
+        type: 'hotel',
+        time: '09:20',
+        desc: '早餐后从酒店出发，上午只安排博乐市区轻量活动。',
+        detail: '这天14:45还要接北京组，上午不要跑远。博物馆和滨河公园都适合按爸妈状态临时二选一。'
+      },
+      {
+        name: '博尔塔拉蒙古自治州博物馆',
+        lat: 44.855374,
+        lng: 82.053403,
+        type: 'spot',
+        time: '10:00',
+        desc: '首选文化展览点，适合了解博州、蒙古族文化和赛里木湖所在区域背景。',
+        detail: '地址：博乐市锦绣路9号。\n公开信息显示周一闭馆，周六通常可去；临近出发前建议再查公众号/电话确认开放时间和临展。\n游览强度：低。适合带双方父母慢慢看。',
+        xhsKeyword: '博尔塔拉蒙古自治州博物馆',
+        gmap: 'Bortala Mongol Autonomous Prefecture Museum'
+      },
+      {
+        name: '博尔塔拉河旅游区 / 博乐滨河公园',
+        lat: 44.871947,
+        lng: 82.056693,
+        type: 'spot',
+        time: '—',
+        desc: '备选散步点。天气好、大家不想进馆时，用河边散步替代博物馆。',
+        detail: '地址锚点：博乐市北京南路1号附近。\n优点是轻松、开放空间大、可随时撤回酒店。缺点是文化信息量不如博物馆。',
+        xhsKeyword: '博乐滨河公园 博尔塔拉河旅游区',
+        gmap: 'Bole Riverfront Park'
+      },
+      {
+        name: '博乐阿拉山口机场',
+        lat: 44.8982786,
+        lng: 82.2853039,
+        type: 'transport',
+        time: '14:45',
+        desc: '北京组抵达：CA1233 北京首都 07:15-11:55 克拉玛依；G54190 14:00-14:45 博乐。',
+        detail: '建议13:40-14:00从博乐市区出发去机场。接上岳父母后，人齐再向温泉镇走。',
+        gmap: 'Bole Alashankou Airport'
+      },
+      {
+        name: '新疆温泉花间堂·阿日相',
+        lat: 44.978449,
+        lng: 81.038363,
+        type: 'hotel',
+        time: '18:00',
+        desc: '13日下午接机后前往温泉县入住花间堂，作为13、14两晚的住宿锚点。',
+        detail: '地址：新疆温泉县环山路2号。\n选择逻辑：带双方父母，温泉县住宿和休息条件通常比赛里木湖湖边更稳定；花间堂偏度假体验，适合把晚餐、洗澡、睡眠恢复都放稳。\n订房建议：6人按3间大床房确认，重点核对停车、早餐、房间是否相邻，以及14日早上早餐开始时间。',
+        xhsKeyword: '新疆温泉花间堂 阿日相',
+        dianpingKeyword: '新疆温泉花间堂 阿日相',
+        reserve: 'https://hotels.ctrip.com/hotels/123512763.html',
+        gmap: 'Blossom House Bortala Xinjiang'
+      }
+    ]
+  },
+  {
+    id: 3,
+    label: '6/14',
+    date: '2026年6月14日 · 周日',
+    title: '北门进出，顺时针环赛里木湖',
+    color: '#ff9500',
+    locations: [
+      {
+        name: '新疆温泉花间堂·阿日相',
+        lat: 44.978449,
+        lng: 81.038363,
+        type: 'hotel',
+        time: '08:00',
+        desc: '从花间堂出发，目标是上午从赛里木湖北门进景区。',
+        detail: '这天不照搬小红书常见的东门/南门路线。我们的逻辑是：住在温泉县，早上从北侧进入更顺；进门后顺时针绕湖，最后回到北门离开。\n出发时间可按天气、爸妈状态和早餐时间微调；如果酒店早餐偏晚，可以提前准备车上补给。',
+        reserve: 'https://hotels.ctrip.com/hotels/123512763.html',
+        gmap: 'Blossom House Bortala Xinjiang'
+      },
+      {
+        name: '赛里木湖景区北门 · 进景区',
+        lat: 44.7026,
+        lng: 81.1265,
+        type: 'transport',
+        time: '09:30',
+        desc: '北门进，开始顺时针环湖。第一段先走北岸到东岸，按亲水滩、博尔汗山、十里长堤方向推进。',
+        detail: '北门是这天的进出锚点。进入后按景区允许方向顺时针走，先把一圈的节奏打稳：不是每个点都必须深度停留，优先选视野好、停车方便、爸妈状态舒服的点。\n坐标是路线锚点，实际检票口、停车区和限行方向以景区当天导览为准。',
+        gmap: 'Sayram Lake North Gate'
+      },
+      {
+        name: '亲水滩',
+        lat: 44.6868,
+        lng: 81.1848,
+        type: 'spot',
+        time: '09:50',
+        desc: '北门进来后的第一段湖岸短停，适合先看湖色、适应景区节奏。',
+        detail: '这里适合作为开场点，不建议一开始就停太久。先拍一组湖边和车边照片，再继续顺时针往东岸走。',
+        xhsKeyword: '赛里木湖 亲水滩',
+        gmap: 'Sayram Lake Qinshuitan'
+      },
+      {
+        name: '博尔汗山',
+        lat: 44.6688,
+        lng: 81.2428,
+        type: 'spot',
+        time: '10:15',
+        desc: '继续沿北岸到东北侧，作为亲水滩之后的第二个顺时针参照点。',
+        detail: '这站可以按停车和风力决定是否下车。若人多或风大，直接作为车览点通过，把停留时间留给后面的三台草原、月亮湾。',
+        xhsKeyword: '赛里木湖 博尔汗山',
+        gmap: 'Sayram Lake Boerhan Mountain'
+      },
+      {
+        name: '十里长堤',
+        lat: 44.6448,
+        lng: 81.3038,
+        type: 'spot',
+        time: '10:40',
+        desc: '东北岸长线视野点，适合看湖岸线和远处雪山。',
+        detail: '十里长堤和三台草原距离较近，建议二选一深停。若十里长堤停车不方便，就只作为顺时针路线标记继续往三台草原走。',
+        xhsKeyword: '赛里木湖 十里长堤',
+        gmap: 'Sayram Lake Shili Changdi'
+      },
+      {
+        name: '三台草原',
+        lat: 44.6188,
+        lng: 81.3458,
+        type: 'spot',
+        time: '11:05',
+        desc: '东岸草原段，适合做上午的主停靠点之一。',
+        detail: '6月如果草色和花况好，这里比单纯路边短停更值得留时间。目标是拍一组草原、湖面、雪山背景的家庭照。',
+        xhsKeyword: '赛里木湖 三台草原',
+        gmap: 'Sayram Lake Santai Grassland'
+      },
+      {
+        name: '月亮湾',
+        lat: 44.5898,
+        lng: 81.3482,
+        type: 'spot',
+        time: '11:35',
+        desc: '东岸经典湖湾点，选开阔湖岸和草原背景拍家庭合影。',
+        detail: '月亮湾适合轻停，不建议把上午全部耗在东岸。若三台草原已经拍得很充分，这里就控制在15-20分钟。',
+        xhsKeyword: '赛里木湖 月亮湾',
+        gmap: 'Sayram Lake Moon Bay'
+      },
+      {
+        name: '东门 / 游客中心 / 婚姻登记中心踩点',
+        lat: 44.614148,
+        lng: 81.383036,
+        type: 'spot',
+        time: '12:05',
+        desc: '顺时针到东门和游客中心，只做婚姻登记中心位置踩点，正式领证放到15日。',
+        detail: '婚姻登记中心公开信息显示在游客中心三楼。这站的目标是确认位置、拍照和看湖；正式办理安排在6月15日周一，不占用14日环湖节奏。',
+        xhsKeyword: '赛里木湖 东门 游客中心 婚姻登记中心',
+        reserve: 'https://m.wlmq.bendibao.com/live/67989.shtm',
+        gmap: 'Sayram Lake Tourist Center'
+      },
+      {
+        name: '废弃旧船',
+        lat: 44.5528,
+        lng: 81.3108,
+        type: 'spot',
+        time: '12:50',
+        desc: '东南岸拍照点，作为从东门去南门路上的弹性停靠。',
+        detail: '这是偏拍照向的点，不适合硬排成长时间停留。若当天停车不方便、风大或爸妈累了，直接略过，把体力留给松树头。',
+        xhsKeyword: '赛里木湖 废弃旧船',
+        gmap: 'Sayram Lake abandoned boat'
+      },
+      {
+        name: '南门',
+        lat: 44.5088,
+        lng: 81.2458,
+        type: 'transport',
+        time: '13:20',
+        desc: '顺时针到南门附近，作为东岸到南侧高点之间的路线锚点。',
+        detail: '这里主要是路线节点，不一定需要停。若需要午餐、卫生间或调整节奏，可以在南门附近处理后再去松树头。',
+        gmap: 'Sayram Lake South Gate'
+      },
+      {
+        name: '松树头',
+        lat: 44.503737,
+        lng: 81.139017,
+        type: 'spot',
+        time: '13:50',
+        desc: '顺时针到南侧高点。天气好、体力允许时，把这里作为全天最重要的俯瞰点。',
+        detail: '松树头视野好，但上坡和台阶对长辈有强度。建议拆成两档：体力好的人上观景点，爸妈可在停车区附近短停看湖。风大或下雨时不要硬爬。',
+        xhsKeyword: '赛里木湖 松树头',
+        gmap: 'Sayram Lake Songshutou'
+      },
+      {
+        name: '克勒涌珠 / 西海草原段',
+        lat: 44.5992,
+        lng: 80.9628,
+        type: 'spot',
+        time: '15:20',
+        desc: '下午进入西岸草原和湿地段，作为顺时针后半圈的主拍照区。',
+        detail: '这里适合把节奏放慢：看草原、湿地、雪山背景和湖面颜色；如果爸妈累了，直接减少停车点，保留车上观景。',
+        xhsKeyword: '赛里木湖 克勒涌珠 西海草原',
+        gmap: 'Sayram Lake Kele Yongzhu'
+      },
+      {
+        name: '点将台',
+        lat: 44.6946,
+        lng: 81.0186,
+        type: 'spot',
+        time: '16:40',
+        desc: '回到北岸前的最后一段观景。按夕阳、风和体力决定是否下车。',
+        detail: '这站是可伸缩点：天气和光线好就停，累了就直接回北门。14日的核心不是打满所有网红点，而是完成北门进出的一圈，并让双方父母状态稳定。',
+        xhsKeyword: '赛里木湖 点将台',
+        gmap: 'Sayram Lake Dianjiangtai'
+      },
+      {
+        name: '赛里木湖景区北门 · 离开',
+        lat: 44.7026,
+        lng: 81.1265,
+        type: 'transport',
+        time: '18:00',
+        desc: '绕回北门离开景区，完成北门进、顺时针环湖、北门出的闭环。',
+        detail: '14日晚仍建议回温泉镇休息，15日上午再去游客中心办理正式登记。若当天风大、下雨或爸妈疲劳，西岸后半段可压缩，优先保证安全出景区。',
+        gmap: 'Sayram Lake North Gate'
+      },
+      {
+        name: '新疆温泉花间堂·阿日相',
+        lat: 44.978449,
+        lng: 81.038363,
+        type: 'hotel',
+        time: '19:30',
+        desc: '北门离开后返回花间堂休息，14日晚继续住温泉县。',
+        detail: '14日晚上不要再追加远距离活动。回酒店后以晚餐、泡汤和整理证件为主；15日上午从温泉县再去游客中心办理，比湖边住宿更稳。',
+        reserve: 'https://hotels.ctrip.com/hotels/123512763.html',
+        gmap: 'Blossom House Bortala Xinjiang'
+      }
+    ]
+  }
+];
+
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  REPLACE THIS SECTION — Overview tab content                ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+function overviewContent() {
+  return `
+<div class="hero"><h1>博乐会合 · 温泉镇 · 赛里木湖</h1><p class="subtitle">6人三地出发，先把接机和住宿打稳，再去赛里木湖</p></div>
+<div class="info-grid">
+  <div class="info-card"><div class="label">12日晚酒店</div><div class="value">全季酒店（博乐店）</div></div>
+  <div class="info-card"><div class="label">13-14晚酒店</div><div class="value">新疆温泉花间堂·阿日相</div></div>
+  <div class="info-card"><div class="label">人数</div><div class="value">6人 · 2人一组 · 三地会合</div></div>
+  <div class="info-card"><div class="label">领证安排</div><div class="value">6月15日周一去办理</div></div>
+</div>
+<div class="section-head">行程概览</div>
+<div class="day-list">${DAYS.slice(1).map(d=>`<div class="card" onclick="go(${d.id})"><div class="name"><span class="dot" style="background:${d.color}"></span>${d.label} · ${d.title}</div><div class="desc">${d.date}</div></div>`).join('')}</div>
+<div class="section-head">航班汇总</div>
+<div class="pay-summary">
+  <h4>广州组</h4>
+  <div>6月12日：3U6710 广州白云 07:05 → 成都天府 09:20；3U6569 成都天府 10:50 → 博乐阿拉山口 15:15。</div>
+  <div class="flight-actions"><button class="flight-shot" onclick="openFlightImage('assets/flights/guangzhou.svg','广州组机票截图')">查看机票截图</button></div>
+</div>
+<div class="pay-summary">
+  <h4>郑州组</h4>
+  <div>6月12日：FU6551 郑州新郑 11:20 → 红旗坡 16:10；G54907 红旗坡 18:30 → 博乐阿拉山口 19:40。</div>
+  <div class="flight-actions"><button class="flight-shot" onclick="openFlightImage('assets/flights/zhengzhou.svg','郑州组机票截图')">查看机票截图</button></div>
+</div>
+<div class="pay-summary">
+  <h4>北京组</h4>
+  <div>6月13日：CA1233 北京首都 07:15 → 克拉玛依 11:55；G54190 克拉玛依 14:00 → 博乐阿拉山口 14:45。</div>
+  <div class="flight-actions"><button class="flight-shot" onclick="openFlightImage('assets/flights/beijing.svg','北京组机票截图')">查看机票截图</button></div>
+</div>
+<div class="section-head">关键提醒</div>
+<div class="pay-summary">
+  <h4>领证安排</h4>
+  <div>正式领证安排在2026年6月15日周一，14日只做游客中心位置踩点和拍照。</div>
+</div>
+<div class="pay-summary">
+  <h4>住宿逻辑</h4>
+  <div>12日晚住博乐市区全季，方便接机和第二天上午轻逛；13、14晚住新疆温泉花间堂·阿日相，把赛里木湖前后的休息、晚餐和洗澡恢复放稳。</div>
+</div>
+<div class="section-head">图例</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--tint-red)"></div>餐厅</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--tint-blue)"></div>景点</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--tint-purple)"></div>酒吧</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--tint-orange)"></div>酒店</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--text-tertiary)"></div>交通</div>
+</div>`;
+}
+
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  ENGINE — Do not modify below unless customizing behavior   ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+const map = L.map('map', { center: [HOTEL.lat || 35.69, HOTEL.lng || 139.74], zoom: 12, zoomControl: false, attributionControl: true });
+L.control.zoom({ position: 'topright' }).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
+
+/* ── Geolocation ── */
+const LocateControl = L.Control.extend({
+  options: { position: 'bottomright' },
+  onAdd() {
+    const btn = L.DomUtil.create('button', 'locate-btn');
+    btn.innerHTML = '📍';
+    btn.title = '我的位置';
+    L.DomEvent.disableClickPropagation(btn);
+    btn.addEventListener('click', () => {
+      btn.classList.add('active');
+      map.locate({ setView: true, maxZoom: 15 });
+    });
+    this._btn = btn;
+    return btn;
+  }
+});
+new LocateControl().addTo(map);
+let locMarker, locCircle;
+map.on('locationfound', e => {
+  const r = e.accuracy / 2;
+  if (locMarker) { locMarker.setLatLng(e.latlng); locCircle.setLatLng(e.latlng).setRadius(r); }
+  else {
+    locMarker = L.marker(e.latlng, {
+      icon: L.divIcon({ className:'', html:'<div style="width:14px;height:14px;border-radius:50%;background:#007aff;border:2.5px solid #fff;box-shadow:0 0 6px rgba(0,122,255,.5)"></div><div class="loc-pulse" style="position:absolute;top:0;left:0"></div>', iconSize:[14,14], iconAnchor:[7,7] }),
+      zIndexOffset: 2000
+    }).addTo(map);
+    locCircle = L.circle(e.latlng, { radius: r, color: '#007aff', fillColor: '#007aff', fillOpacity: .08, weight: 1 }).addTo(map);
+  }
+});
+map.on('locationerror', () => {});
+
+function icon(color, emoji) {
+  return L.divIcon({ className: '', html: `<div style="width:28px;height:28px;border-radius:50%;background:${color};border:2.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.18)">${emoji||''}</div>`, iconSize: [28,28], iconAnchor: [14,14], popupAnchor: [0,-16] });
+}
+
+if (HOTEL.lat) L.marker([HOTEL.lat, HOTEL.lng], { icon: icon('#ff9500','🏨'), zIndexOffset: 1000 }).addTo(map).bindPopup(`<b>${HOTEL.name}</b>`);
+
+let markers = [], polylines = [];
+const emojis = { food:'🍽️', spot:'📍', hotel:'🏨', transport:'🚃', drink:'🍺' };
+
+function clearMap() { markers.forEach(m=>map.removeLayer(m)); polylines.forEach(p=>map.removeLayer(p)); markers=[]; polylines=[]; }
+
+function showDay(idx) {
+  clearMap();
+  if (idx === 0) {
+    const pts = [];
+    DAYS.forEach(d => d.locations.forEach(l => { if(l.lat) pts.push([l.lat,l.lng]); }));
+    if(pts.length) map.fitBounds(pts, {padding:[30,30]});
+    DAYS.slice(1).forEach(d => {
+      d.locations.filter(l=>l.time!=='—').forEach(l => {
+        const m = L.circleMarker([l.lat,l.lng], { radius:4, fillColor:d.color, color:'#fff', weight:1.5, fillOpacity:.9 }).addTo(map).bindPopup(`<b>${l.name}</b><br><span style="color:#86868b">${d.label}</span>`);
+        markers.push(m);
+      });
+    });
+    return;
+  }
+  const day = DAYS.find(d=>d.id===idx);
+  if(!day) return;
+  const coords = [];
+  day.locations.forEach(l => {
+    if(!l.lat) return;
+    const m = L.marker([l.lat,l.lng], { icon: icon(day.color, emojis[l.type]||'📌') }).addTo(map);
+    const gmapQ = l.gmap||encodeURIComponent(l.name+' 新疆');
+    m.bindPopup(`<b>${l.name}</b>${l.time!=='—'?'<br><span style="color:#86868b">'+l.time+'</span>':''}<br>${l.desc}${l.budget?'<br><span style="color:#ff9500">'+l.budget+'</span>':''}<br><a href="#" onclick="event.preventDefault();openAS('${l.name.replace(/'/g,"\\'")}',${l.lat},${l.lng},'${gmapQ}')">📍 导航</a>${l.xhs?' · <a href="'+l.xhs+'" target="_blank">📕 小红书</a>':''}`);
+    markers.push(m);
+    if(l.time!=='—') coords.push([l.lat,l.lng]);
+  });
+  if(coords.length>1) { const pl = L.polyline(coords, { color:day.color, weight:2.5, opacity:.5, dashArray:'6,5' }).addTo(map); polylines.push(pl); }
+  if(coords.length) map.fitBounds(coords, { padding:[40,40], maxZoom:14 });
+}
+
+// ══════════ RENDER ══════════
+function payChips(pay) {
+  if(!pay) return '';
+  let h = '<div class="pays">';
+  const m = { cash:'💴', card:'💳', suica:'Suica', paypay:'PayPay', alipay:'支付宝', wechat:'微信' };
+  for(const [k,label] of Object.entries(m)) {
+    if(pay[k]!==undefined) { const c = pay[k]===1?'ok':pay[k]===0.5?'idk':'no'; h += `<span class="pay ${c}">${label}</span>`; }
+  }
+  return h+'</div>';
+}
+
+// ── 运行环境检测：在第三方 App 的 WebView 里，自定义 scheme 基本会被拦截 ──
+const IN_APP_WEBVIEW = (() => {
+  const ua = (navigator.userAgent || '').toLowerCase();
+  return /micromessenger|xhs|xhsdiscover|discover\/|tiktok|aweme|weibo|qq\/|qqbrowser|alipayclient|dingtalk|lark|feishu|ucbrowser|baiduboxapp|toutiao|newsarticle/.test(ua);
+})();
+
+function xhsKeyword(loc) {
+  if(loc.xhsKeyword) return loc.xhsKeyword.trim();
+  return (loc.name||'').replace(/⭐.*$/g,'').replace(/（.*?）/g,'').replace(/\(.*?\)/g,'').replace(/\s+/g,' ').trim();
+}
+function xhsAppUrl(loc) { return `xhsdiscover://search/result?keyword=${encodeURIComponent(xhsKeyword(loc))}&target_search=notes&source=deeplink`; }
+function xhsWebUrl(loc) { return `https://www.xiaohongshu.com/search_result?keyword=${encodeURIComponent(xhsKeyword(loc))}&source=web_explore_feed`; }
+
+function dpKeyword(loc) {
+  if(loc.dianpingKeyword) return loc.dianpingKeyword.trim();
+  return (loc.name||'').replace(/⭐.*$/g,'').replace(/（.*?）/g,'').replace(/\(.*?\)/g,'').replace(/\s+/g,' ').trim();
+}
+function dpAppUrl(loc) { return `dianping://searchshoplist?keyword=${encodeURIComponent(dpKeyword(loc))}`; }
+function dpWebUrl(loc) { return `https://m.dianping.com/searchshop?keyword=${encodeURIComponent(dpKeyword(loc))}`; }
+
+window._extLocs = {};
+DAYS.forEach(d => d.locations.forEach(l => { window._extLocs[`${d.id}::${l.name}`] = l; }));
+window._xhsLocs = window._extLocs;
+
+function openExt(key, kind) {
+  const loc = window._extLocs[key]; if(!loc) return false;
+  if (IN_APP_WEBVIEW) {
+    window.location.href = kind==='dp' ? dpWebUrl(loc) : xhsWebUrl(loc);
+  } else {
+    window.location.href = kind==='dp' ? dpAppUrl(loc) : xhsAppUrl(loc);
+  }
+  return false;
+}
+function openXhs(key) { return openExt(key, 'xhs'); }
+function openDp(key)  { return openExt(key, 'dp'); }
+
+function locCard(loc, dayIdx, locIdx) {
+  const dot = loc.type==='food'?'food':loc.type==='spot'?'spot':loc.type==='drink'?'drink':loc.type==='hotel'?'hotel':'transport';
+  const bdg = loc.type==='food'?'<span class="badge food">餐</span>':loc.type==='spot'?'<span class="badge spot">景</span>':loc.type==='drink'?'<span class="badge drink">饮</span>':'';
+  const uid = `d${dayIdx}-${locIdx}`;
+  const locKey = `${dayIdx}::${loc.name}`;
+  const gmapQ = loc.gmap||encodeURIComponent(loc.name+' 新疆');
+  let lnk = `<button class="btn nav" onclick="openAS('${loc.name.replace(/'/g,"\\'")}',${loc.lat},${loc.lng},'${gmapQ}')">📍 导航</button>`;
+  if(loc.xhs||loc.xhsKeyword) {
+    const xhsHref = IN_APP_WEBVIEW ? xhsWebUrl(loc) : xhsAppUrl(loc);
+    const xhsLabel = IN_APP_WEBVIEW ? '📕 小红书' : '📕 小红书 App';
+    lnk += `<a href="${xhsHref}" onclick="return openXhs('${locKey.replace(/'/g,"\\'")}')" class="btn xhs">${xhsLabel}</a>`;
+  }
+  const dpEnabled = loc.dianping !== false &&
+    (loc.dianping || loc.dianpingKeyword || loc.type==='food' || loc.type==='drink');
+  if(dpEnabled) {
+    const dpHref = IN_APP_WEBVIEW ? dpWebUrl(loc) : dpAppUrl(loc);
+    const dpLabel = IN_APP_WEBVIEW ? '🍜 大众点评' : '🍜 大众点评 App';
+    lnk += `<a href="${dpHref}" onclick="return openDp('${locKey.replace(/'/g,"\\'")}')" class="btn dp">${dpLabel}</a>`;
+  }
+  if(loc.reserve) lnk += `<a href="${loc.reserve}" target="_blank" class="btn rsv">📅 预约</a>`;
+  return `<div class="tl-item"><div class="tl-dot ${dot}"></div><div class="card" onclick="if(!event.target.closest('.btn,.links'))toggle('${uid}')"><div class="time">${loc.time!=='—'?loc.time:'备选'}</div><div class="name">${bdg} ${loc.name}</div><div class="desc">${loc.desc}</div>${loc.budget?'<div class="budget">'+loc.budget+'</div>':''}${payChips(loc.pay)}<div class="links">${lnk}</div>${loc.detail?'<div class="details" id="'+uid+'">'+loc.detail.replace(/\n/g,'<br>')+'</div>':''}</div></div>`;
+}
+
+function renderDay(idx) {
+  const d = DAYS.find(x=>x.id===idx); if(!d) return '';
+  const main = d.locations.filter(l=>l.time!=='—');
+  const alt = d.locations.filter(l=>l.time==='—');
+  let h = `<div class="day-head"><h2>${d.title}</h2><p>${d.date}</p></div>`;
+  if(main.length) { h += '<div class="section-head">行程</div><div class="timeline">'; main.forEach(l => h += locCard(l, idx, d.locations.indexOf(l))); h += '</div>'; }
+  if(alt.length) { h += '<div class="section-head">备选</div><div class="timeline">'; alt.forEach(l => h += locCard(l, idx, d.locations.indexOf(l))); h += '</div>'; }
+  return h;
+}
+
+// ══════════ NAV ══════════
+let cur = 0;
+const tabsEl = document.getElementById('tabs');
+const contentEl = document.getElementById('content');
+
+DAYS.forEach(d => {
+  const btn = document.createElement('button');
+  btn.className = 'tab' + (d.id===0?' active':'');
+  btn.dataset.day = d.id;
+  btn.textContent = d.label;
+  tabsEl.appendChild(btn);
+});
+
+function go(idx) {
+  cur = idx;
+  tabsEl.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', +t.dataset.day===idx));
+  contentEl.innerHTML = idx===0 ? overviewContent() : renderDay(idx);
+  showDay(idx);
+  contentEl.scrollTo({top:0});
+  const tab = tabsEl.querySelector(`[data-day="${idx}"]`);
+  if(tab) tab.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+}
+
+function toggle(id) { const el=document.getElementById(id); if(el) el.classList.toggle('closed'); }
+
+tabsEl.addEventListener('click', e => { const t=e.target.closest('.tab'); if(t) go(+t.dataset.day); });
+
+go(0);
+
+/* ── Action Sheet for Navigation ── */
+const asOverlay = document.createElement('div');
+asOverlay.className = 'as-overlay';
+asOverlay.innerHTML = `<div class="as-sheet">
+  <div class="as-group" id="as-opts"></div>
+  <div class="as-group"><button class="as-item as-cancel" onclick="closeAS()">取消</button></div>
+</div>`;
+document.body.appendChild(asOverlay);
+asOverlay.addEventListener('click', e => { if (e.target === asOverlay) closeAS(); });
+
+const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+function amapAppUrl(name, lat, lng) {
+  const scheme = IS_IOS ? 'iosamap' : 'androidamap';
+  return `${scheme}://viewMap?sourceApplication=trip&poiname=${encodeURIComponent(name)}&lat=${lat}&lon=${lng}&dev=0`;
+}
+function amapWebUrl(name, lat, lng) {
+  return `https://uri.amap.com/marker?position=${lng},${lat}&name=${encodeURIComponent(name)}&src=trip&coordinate=wgs84&callnative=1`;
+}
+function openAmap(name, lat, lng) {
+  if (IN_APP_WEBVIEW) { window.open(amapWebUrl(name, lat, lng)); return; }
+  window.location.href = amapAppUrl(name, lat, lng);
+}
+
+function openAS(name, lat, lng, gmap) {
+  const q = gmap || encodeURIComponent(name + ' 新疆');
+  const encName = encodeURIComponent(name);
+  const safeName = name.replace(/'/g,"\\'");
+  // WebView 内 maps:// 通常被拦截，改用 https Apple Maps URL —— iOS 系统会自动拉起 Apple Maps
+  const appleUrl = IN_APP_WEBVIEW
+    ? `https://maps.apple.com/?q=${lat},${lng}&ll=${lat},${lng}&name=${encName}`
+    : `maps://maps.apple.com/?q=${lat},${lng}&name=${encName}`;
+  const googleUrl = `https://www.google.com/maps/search/?api=1&query=${q}`;
+  document.getElementById('as-opts').innerHTML =
+    `<button class="as-item" onclick="window.open('${appleUrl}');closeAS()">🍎 Apple Maps</button>` +
+    `<button class="as-item" onclick="window.open('${googleUrl}');closeAS()">🗺️ Google Maps</button>` +
+    `<button class="as-item" onclick="openAmap('${safeName}',${lat},${lng});closeAS()">🧭 高德地图 App</button>`;
+  asOverlay.classList.add('show');
+}
+function closeAS() { asOverlay.classList.remove('show'); }
+
+/* ── Flight image preview ── */
+const imgModal = document.createElement('div');
+imgModal.className = 'img-modal';
+imgModal.innerHTML = `<div class="img-modal-card">
+  <div class="img-modal-head">
+    <div class="img-modal-title" id="img-modal-title"></div>
+    <button class="img-modal-close" onclick="closeFlightImage()" aria-label="关闭">×</button>
+  </div>
+  <img class="img-modal-img" id="img-modal-img" alt="">
+</div>`;
+document.body.appendChild(imgModal);
+imgModal.addEventListener('click', e => { if (e.target === imgModal) closeFlightImage(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFlightImage(); });
+
+function openFlightImage(src, title) {
+  const img = document.getElementById('img-modal-img');
+  img.src = src;
+  img.alt = title;
+  document.getElementById('img-modal-title').textContent = title;
+  imgModal.classList.add('show');
+}
+function closeFlightImage() {
+  imgModal.classList.remove('show');
+}
+</script>
+</body>
+</html>
