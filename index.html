@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>博乐接机与赛里木湖家庭行程地图</title>
-<meta name="description" content="6人三地出发，在博乐会合后前往温泉镇与赛里木湖的参考行程地图">
+<meta name="description" content="6人三地出发，在博乐会合后经温泉县前往赛里木湖，14日晚住赛里木湖桔子水晶酒店的参考行程地图">
 <link rel="icon" href="data:,">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -277,7 +277,7 @@ const DAYS = [
     id: 1,
     label: '6/12',
     date: '2026年6月12日 · 周五',
-    title: '广州组先到，晚间接郑州组',
+    title: '广州组先到，郑州组跨天中转',
     color: '#0a84ff',
     locations: [
       {
@@ -302,24 +302,14 @@ const DAYS = [
         gmap: 'JI Hotel Bole Xinjiang'
       },
       {
-        name: '从酒店出发接郑州组',
+        name: '酒店附近晚饭 / 不再回机场',
         lat: 44.888796,
         lng: 82.062424,
-        type: 'transport',
-        time: '18:50',
-        desc: '从全季出发去机场。按市区到机场约25-35分钟估算，留出停车和等行李时间。',
-        detail: '郑州组航班：FU6551 郑州新郑 11:20-16:10 红旗坡机场；G54907 18:30-19:40 抵达博乐阿拉山口机场。\n如果航班提前或延误，优先让你爸妈到到达口集合，不需要你们过早离开酒店。',
+        type: 'food',
+        time: '18:30',
+        desc: '郑州组航班调整为跨天中转，12日晚不用再从博乐市区回机场接机。',
+        detail: '郑州组新航班：6月12日 FU6551 郑州新郑 11:20-16:10 抵达红旗坡机场；中转阿克苏16小时05分；6月13日 G54907 红旗坡 08:15-09:30 抵达阿拉山口/博乐。\n所以12日晚广州组直接在全季酒店附近吃饭、补给、休息，不再跑机场。',
         gmap: 'JI Hotel Bole Xinjiang'
-      },
-      {
-        name: '郑州组抵达 · FU6551/G54907',
-        lat: 44.8982786,
-        lng: 82.2853039,
-        type: 'transport',
-        time: '19:40',
-        desc: '接上爸妈后返回博乐市区。当天不排景点，只解决晚饭和休息。',
-        detail: '建议晚餐选酒店附近或中央广场附近，避免再开远路。第二天上午还有轻量活动，12日晚核心目标是把人接齐、睡好。',
-        gmap: 'Bole Alashankou Airport'
       },
       {
         name: '全季酒店（博乐店）',
@@ -327,8 +317,8 @@ const DAYS = [
         lng: 82.062424,
         type: 'hotel',
         time: '20:30',
-        desc: '返回酒店休息。12日晚住宿锚点固定在全季酒店（博乐店）。',
-        detail: '晚上只做低强度安排：入住、晚饭、整理证件和第二天接机时间。'
+        desc: '留在酒店休息。12日晚住宿锚点固定在全季酒店（博乐店）。',
+        detail: '晚上只做低强度安排：入住、晚饭、整理证件和第二天接机时间。郑州组13日上午到达后再会合。'
       }
     ]
   },
@@ -336,7 +326,7 @@ const DAYS = [
     id: 2,
     label: '6/13',
     date: '2026年6月13日 · 周六',
-    title: '市区轻逛，接北京组后去温泉镇',
+    title: '接郑州组和北京组后入住花间堂',
     color: '#34c759',
     locations: [
       {
@@ -344,31 +334,41 @@ const DAYS = [
         lat: 44.888796,
         lng: 82.062424,
         type: 'hotel',
-        time: '09:20',
-        desc: '早餐后从酒店出发，上午只安排博乐市区轻量活动。',
-        detail: '这天14:45还要接北京组，上午不要跑远。博物馆和滨河公园都适合按爸妈状态临时二选一。'
+        time: '08:30',
+        desc: '早餐、退房和整理行李。司机准备去附近一嗨提车，其余人在酒店收拾。',
+        detail: '这天上午要接郑州组，14:45还要接北京组，上午不要跑远。先把租车、行李和座位安排确认好；如果接机顺利，就去博物馆，否则直接午饭和休息。'
+      },
+      {
+        name: '一嗨租车渝博酒店停车场',
+        lat: 44.890346,
+        lng: 82.069593,
+        type: 'transport',
+        time: '09:00',
+        desc: '在一嗨租车渝博酒店停车场取车，车型暂定广汽传祺M8大师。',
+        detail: '当前账号租车费用：1921元。\n租期：6月13日09:00取车，6月15日21:00伊宁机场店还车。\n取车前核对：车身划痕视频、油量/电量、里程、保险范围、儿童/长辈上下车便利性、6人行李是否能放下。\n一嗨信息显示渝博酒店停车场地址为博乐市克尔根卓街道渝博商厦，离全季（博乐店）更近，且营业时间信号覆盖09:00；具体集合位置和送车规则以一嗨App订单页为准。',
+        budget: '租车 ¥1921 · 广汽传祺M8大师',
+        gmap: '渝博酒店停车场 博乐'
+      },
+      {
+        name: '接郑州组 · G54907',
+        lat: 44.8982786,
+        lng: 82.2853039,
+        type: 'transport',
+        time: '09:50',
+        desc: '郑州组6月13日早上从红旗坡飞抵阿拉山口/博乐，取行李后在到达口会合。',
+        detail: '新票面信息：G54907 红旗坡机场 08:15 起飞，09:30 到达阿拉山口/博乐。司机9:00取车后去机场，目标09:50左右接到人；如果取车或行李慢，博物馆直接压缩或跳过。',
+        gmap: 'Bole Alashankou Airport'
       },
       {
         name: '博尔塔拉蒙古自治州博物馆',
         lat: 44.855374,
         lng: 82.053403,
         type: 'spot',
-        time: '10:00',
+        time: '11:00',
         desc: '首选文化展览点，适合了解博州、蒙古族文化和赛里木湖所在区域背景。',
-        detail: '地址：博乐市锦绣路9号。\n公开信息显示周一闭馆，周六通常可去；临近出发前建议再查公众号/电话确认开放时间和临展。\n游览强度：低。适合带双方父母慢慢看。',
+        detail: '地址：博乐市锦绣路9号。\n公开信息显示周一闭馆，周六通常可去；临近出发前建议再查公众号/电话确认开放时间和临展。\n游览强度：低。接完郑州组后如果时间和体力允许就去；如果接机、取车或午饭拖慢，博物馆可压缩或跳过。',
         xhsKeyword: '博尔塔拉蒙古自治州博物馆',
         gmap: 'Bortala Mongol Autonomous Prefecture Museum'
-      },
-      {
-        name: '博尔塔拉河旅游区 / 博乐滨河公园',
-        lat: 44.871947,
-        lng: 82.056693,
-        type: 'spot',
-        time: '—',
-        desc: '备选散步点。天气好、大家不想进馆时，用河边散步替代博物馆。',
-        detail: '地址锚点：博乐市北京南路1号附近。\n优点是轻松、开放空间大、可随时撤回酒店。缺点是文化信息量不如博物馆。',
-        xhsKeyword: '博乐滨河公园 博尔塔拉河旅游区',
-        gmap: 'Bole Riverfront Park'
       },
       {
         name: '博乐阿拉山口机场',
@@ -377,7 +377,7 @@ const DAYS = [
         type: 'transport',
         time: '14:45',
         desc: '北京组抵达：CA1233 北京首都 07:15-11:55 克拉玛依；G54190 14:00-14:45 博乐。',
-        detail: '建议13:40-14:00从博乐市区出发去机场。接上岳父母后，人齐再向温泉镇走。',
+        detail: '建议13:40-14:00从博乐市区出发去机场。接上岳父母后，人齐再向新疆温泉花间堂·阿日相走。',
         gmap: 'Bole Alashankou Airport'
       },
       {
@@ -386,8 +386,8 @@ const DAYS = [
         lng: 81.038363,
         type: 'hotel',
         time: '18:00',
-        desc: '13日下午接机后前往温泉县入住花间堂，作为13、14两晚的住宿锚点。',
-        detail: '地址：新疆温泉县环山路2号。\n选择逻辑：带双方父母，温泉县住宿和休息条件通常比赛里木湖湖边更稳定；花间堂偏度假体验，适合把晚餐、洗澡、睡眠恢复都放稳。\n订房建议：6人按3间大床房确认，重点核对停车、早餐、房间是否相邻，以及14日早上早餐开始时间。',
+        desc: '13日下午接机后前往新疆温泉花间堂·阿日相入住，作为13日晚住宿锚点。',
+        detail: '地址：新疆温泉县环山路2号。\n选择逻辑：13日晚先住温泉县，把接机后的晚餐、洗澡和睡眠恢复放稳；14日早上再从北侧进赛里木湖。\n订房建议：6人按3间大床房确认，重点核对停车、早餐、房间是否相邻，以及14日早上早餐开始时间。',
         xhsKeyword: '新疆温泉花间堂 阿日相',
         dianpingKeyword: '新疆温泉花间堂 阿日相',
         reserve: 'https://hotels.ctrip.com/hotels/123512763.html',
@@ -399,7 +399,7 @@ const DAYS = [
     id: 3,
     label: '6/14',
     date: '2026年6月14日 · 周日',
-    title: '北门进出，顺时针环赛里木湖',
+    title: '北门进出，晚上住东门桔子水晶',
     color: '#ff9500',
     locations: [
       {
@@ -409,7 +409,7 @@ const DAYS = [
         type: 'hotel',
         time: '08:00',
         desc: '从花间堂出发，目标是上午从赛里木湖北门进景区。',
-        detail: '这天不照搬小红书常见的东门/南门路线。我们的逻辑是：住在温泉县，早上从北侧进入更顺；进门后顺时针绕湖，最后回到北门离开。\n出发时间可按天气、爸妈状态和早餐时间微调；如果酒店早餐偏晚，可以提前准备车上补给。',
+        detail: '这天不照搬小红书常见的东门/南门路线。我们的逻辑是：住在新疆温泉花间堂·阿日相，早上从北侧进入更顺；进门后顺时针绕湖，最后回到北门离开。\n出发时间可按天气、爸妈状态和早餐时间微调；如果酒店早餐偏晚，可以提前准备车上补给。',
         reserve: 'https://hotels.ctrip.com/hotels/123512763.html',
         gmap: 'Blossom House Bortala Xinjiang'
       },
@@ -551,23 +551,169 @@ const DAYS = [
         type: 'transport',
         time: '18:00',
         desc: '绕回北门离开景区，完成北门进、顺时针环湖、北门出的闭环。',
-        detail: '14日晚仍建议回温泉镇休息，15日上午再去游客中心办理正式登记。若当天风大、下雨或爸妈疲劳，西岸后半段可压缩，优先保证安全出景区。',
+        detail: '绕回北门后不再回温泉县，直接去赛里木湖东门片区的桔子水晶酒店入住。若当天风大、下雨或爸妈疲劳，西岸后半段可压缩，优先保证安全出景区和顺利入住。',
         gmap: 'Sayram Lake North Gate'
       },
       {
-        name: '新疆温泉花间堂·阿日相',
-        lat: 44.978449,
-        lng: 81.038363,
+        name: '赛里木湖桔子水晶酒店',
+        lat: 44.6132,
+        lng: 81.3842,
         type: 'hotel',
         time: '19:30',
-        desc: '北门离开后返回花间堂休息，14日晚继续住温泉县。',
-        detail: '14日晚上不要再追加远距离活动。回酒店后以晚餐、泡汤和整理证件为主；15日上午从温泉县再去游客中心办理，比湖边住宿更稳。',
-        reserve: 'https://hotels.ctrip.com/hotels/123512763.html',
-        gmap: 'Blossom House Bortala Xinjiang'
+        desc: '14日晚已订赛里木湖桔子水晶酒店，住在东门/游客中心附近，方便15日上午领证。',
+        detail: '地址：赛里木湖天境里东南侧60米。\n优势是离东门和游客中心近，15日上午不用从温泉县再折返进湖区；到店后以晚餐、洗澡、整理证件和休息为主，不再追加远距离活动。\n入住后重点确认：早餐时间、停车位置、第二天退房时间、去游客中心三楼婚姻登记中心的步行/开车动线。',
+        xhsKeyword: '赛里木湖桔子水晶酒店',
+        dianpingKeyword: '赛里木湖桔子水晶酒店',
+        reserve: 'https://sg.trip.com/hotels/bole-hotel-detail-133572813/sailimu-lake-orange-crystal-hotel/',
+        gmap: 'Sailimu Lake Orange Crystal Hotel'
+      }
+    ]
+  },
+  {
+    id: 4,
+    label: '6/15',
+    date: '2026年6月15日 · 周一',
+    title: '正式领证，经果子沟进伊宁机场还车',
+    color: '#af52de',
+    locations: [
+      {
+        name: '赛里木湖桔子水晶酒店',
+        lat: 44.6132,
+        lng: 81.3842,
+        type: 'hotel',
+        time: '09:00',
+        desc: '早餐、退房、整理证件。从桔子水晶出发去游客中心办理领证。',
+        detail: '酒店已订，14日晚住东门片区，15日上午不用从温泉县赶路。早餐后先检查身份证、户口本、照片/现场拍照要求，再去游客中心三楼婚姻登记中心。',
+        reserve: 'https://sg.trip.com/hotels/bole-hotel-detail-133572813/sailimu-lake-orange-crystal-hotel/',
+        gmap: 'Sailimu Lake Orange Crystal Hotel'
+      },
+      {
+        name: '赛里木湖游客中心 / 婚姻登记中心',
+        lat: 44.614148,
+        lng: 81.383036,
+        type: 'spot',
+        time: '10:00',
+        desc: '周一正式办理领证。14日已经踩点，15日直接按材料和现场流程办理。',
+        detail: '公开信息显示婚姻登记中心在游客中心三楼。当天核心目标是把证件、照片、排队和办理流程处理稳，不把上午塞满景点。\n出发前再核对身份证、户口本、照片/现场拍照要求、预约或现场号规则。',
+        xhsKeyword: '赛里木湖 婚姻登记中心 游客中心',
+        reserve: 'https://m.wlmq.bendibao.com/live/67989.shtm',
+        gmap: 'Sayram Lake Tourist Center'
+      },
+      {
+        name: '赛里木湖东门 / 午餐补给',
+        lat: 44.614148,
+        lng: 81.383036,
+        type: 'transport',
+        time: '12:20',
+        desc: '领证后在东门游客中心附近吃饭、补给、休息，下午走果子沟方向去伊宁。',
+        detail: '不要领完证立刻赶路。先解决午餐、卫生间、加油/补给和爸妈休息，再走果子沟方向。若现场办理耗时较长，下午节点顺延，但果子沟大桥保留为必到点。',
+        gmap: 'Sayram Lake East Gate'
+      },
+      {
+        name: '果子沟大桥观景点',
+        lat: 44.467969,
+        lng: 81.149,
+        type: 'spot',
+        time: '14:10',
+        desc: '从赛里木湖去伊宁会经过果子沟大桥，这站必去，专门留出停车观景和拍照时间。',
+        detail: '果子沟大桥是15日下午的硬锚点。导航时不要把目标设在高速桥面中间，优先找“果子沟大桥观景台/观景平台/金顶”一类可停车点；停车和掉头以现场标识为准。\n建议停留30-40分钟：看桥、拍家庭照、让爸妈活动一下腿，再继续往霍城方向走。',
+        xhsKeyword: '果子沟大桥 观景台 停车',
+        gmap: 'Guozigou Bridge Observation Deck'
+      },
+      {
+        name: '解忧公主薰衣草园',
+        lat: 44.16816,
+        lng: 80.75377,
+        type: 'spot',
+        time: '15:45',
+        desc: '顺着霍城方向把薰衣草园接进路线，作为果子沟后、进伊宁前的短停。',
+        detail: '地址在霍城县清水河镇G218附近。6月通常是薰衣草观赏窗口，但花况受天气和采收影响，现场以当天状态为准。\n这站改为15日主线顺路短停：花况好、大家状态好就停45-60分钟；如果领证耗时、天气一般或爸妈累了，就压缩成门口拍照和休息，不为了它影响后面机场店还车、酒店入住和喀赞其晚饭。',
+        xhsKeyword: '霍城 解忧公主薰衣草园 6月 花期',
+        reserve: 'https://you.ctrip.com/sight/huocheng1446379/1408815.html',
+        gmap: 'JieYou princess lavender'
+      },
+      {
+        name: '一嗨租车伊宁机场店 · 还车',
+        lat: 43.9556,
+        lng: 81.3309,
+        type: 'transport',
+        time: '18:30',
+        desc: '进伊宁后先去机场店还车，结束自驾段，后面打车去花田云邸民宿。',
+        detail: '还车门店：一嗨租车伊宁机场店。\n租车信息：广汽传祺M8大师，当前账号费用1921元，订单到6月15日21:00兜底。\n建议在机场店先卸行李、加油到取车约定油量、拍外观和仪表盘照片、确认违章押金/还车验车单。机场停车场交车点和停车费以一嗨App订单页或门店电话为准。',
+        budget: '目标18:30-19:00还车 · 订单21:00兜底',
+        gmap: 'Yining Airport'
+      },
+      {
+        name: '打车去花田云邸民宿',
+        lat: 43.9089,
+        lng: 81.3334,
+        type: 'transport',
+        time: '19:05',
+        desc: '还车后叫车去花田云邸民宿。6人带行李，大概率要两辆车或一辆商务车。',
+        detail: '不再开车进喀赞其老城小巷。还车后轻装打车去花田云邸，先放行李、让爸妈休息一下，再出门吃饭和夜逛。6人带行李大概率要两辆网约车或一辆商务车。',
+        gmap: 'Yining Airport to 伊宁花田云邸民宿 前进街150-1号'
+      },
+      {
+        name: '伊宁花田云邸民宿（喀赞其民俗旅游区店）',
+        lat: 43.9089,
+        lng: 81.3334,
+        type: 'hotel',
+        time: '19:30',
+        desc: '15日晚入住花田云邸，位置在前进街150-1号，先放行李，再出去吃饭散步。',
+        detail: '携程信息：地址为伊宁市前进街150-1号，评分约4.8/5、355条点评；2023年开业，房量约22间。优点是位置和体验感更强，适合想住得有伊宁味道；入住前建议确认3间房是否相邻、老人是否少爬楼、热水空调和行李搬运。',
+        reserve: 'https://hotels.ctrip.com/hotels/109481813.html',
+        gmap: '伊宁花田云邸民宿 前进街150-1号'
+      },
+      {
+        name: '伊宁老城文化旅游区机场美仑酒店',
+        lat: 43.9132,
+        lng: 81.3196,
+        type: 'hotel',
+        time: '—',
+        desc: '标准酒店备选。位置在斯大林街23号，靠近喀赞其、伊犁河、六星街，适合临时改为更稳的商务酒店。',
+        detail: '携程信息：地址为新疆伊宁市斯大林街23号，评分约4.7/5、445条点评；有免费停车、免费接送机、健身房、洗衣等商务酒店配置。优点是前台、电梯、早餐、行李和晚到更可控；缺点是老城体验感不如民宿小院。',
+        reserve: 'https://hotels.ctrip.com/hotels/122464385.html',
+        gmap: '伊宁老城文化旅游区机场美仑酒店 斯大林街23号'
+      },
+      {
+        name: '伊犁老城文化旅游区（喀赞其 / 蓝色小镇）',
+        lat: 43.9103,
+        lng: 81.3316,
+        type: 'spot',
+        time: '20:00',
+        desc: '放下行李后再轻松逛老城、拍蓝色民居、吃晚饭，不再赶着去还车。',
+        detail: '喀赞其也叫伊犁老城文化旅游区/蓝色小镇。15日晚的目标是轻逛和晚饭，不赶场：如果到酒店偏晚，就只在酒店附近吃饭散步；如果大家状态好，再逛老城主街和民俗街巷。六星街留作16日上午备选。',
+        xhsKeyword: '伊宁 喀赞其 蓝色小镇 六星街',
+        gmap: 'Kazanchi Folk Tourism Area Yining'
       }
     ]
   }
 ];
+
+const TYPE_META = {
+  food: { label: '餐厅', color: '#ff3b30' },
+  spot: { label: '景点', color: '#007aff' },
+  drink: { label: '饮品', color: '#af52de' },
+  hotel: { label: '酒店', color: '#ff9500' },
+  transport: { label: '交通', color: '#aeaeb2' }
+};
+
+function locType(loc) {
+  return TYPE_META[loc.type] ? loc.type : 'transport';
+}
+
+function locColor(loc) {
+  return TYPE_META[locType(loc)].color;
+}
+
+function legendContent() {
+  const order = ['food', 'spot', 'hotel', 'transport', 'drink'];
+  const used = new Set();
+  DAYS.forEach(d => d.locations.forEach(l => used.add(locType(l))));
+  return order.filter(t => used.has(t)).map(t =>
+    `<div class="legend-item"><div class="legend-dot" style="background:${TYPE_META[t].color}"></div>${TYPE_META[t].label}</div>`
+  ).join('');
+}
 
 // ╔══════════════════════════════════════════════════════════════╗
 // ║  REPLACE THIS SECTION — Overview tab content                ║
@@ -575,11 +721,14 @@ const DAYS = [
 
 function overviewContent() {
   return `
-<div class="hero"><h1>博乐会合 · 温泉镇 · 赛里木湖</h1><p class="subtitle">6人三地出发，先把接机和住宿打稳，再去赛里木湖</p></div>
+<div class="hero"><h1>博乐会合 · 花间堂 · 赛里木湖</h1><p class="subtitle">6人三地出发，14日晚住东门桔子水晶，15日上午就近领证</p></div>
 <div class="info-grid">
   <div class="info-card"><div class="label">12日晚酒店</div><div class="value">全季酒店（博乐店）</div></div>
-  <div class="info-card"><div class="label">13-14晚酒店</div><div class="value">新疆温泉花间堂·阿日相</div></div>
+  <div class="info-card"><div class="label">13日晚酒店</div><div class="value">新疆温泉花间堂·阿日相</div></div>
+  <div class="info-card"><div class="label">14日晚酒店</div><div class="value">赛里木湖桔子水晶酒店</div></div>
+  <div class="info-card"><div class="label">15日晚酒店</div><div class="value">伊宁花田云邸民宿</div></div>
   <div class="info-card"><div class="label">人数</div><div class="value">6人 · 2人一组 · 三地会合</div></div>
+  <div class="info-card"><div class="label">租车安排</div><div class="value">M8大师 · 6/13 09:00取 · 6/15 21:00还</div></div>
   <div class="info-card"><div class="label">领证安排</div><div class="value">6月15日周一去办理</div></div>
 </div>
 <div class="section-head">行程概览</div>
@@ -592,7 +741,7 @@ function overviewContent() {
 </div>
 <div class="pay-summary">
   <h4>郑州组</h4>
-  <div>6月12日：FU6551 郑州新郑 11:20 → 红旗坡 16:10；G54907 红旗坡 18:30 → 博乐阿拉山口 19:40。</div>
+  <div>6月12日：FU6551 郑州新郑 11:20 → 红旗坡 16:10；跨天中转阿克苏16小时05分；6月13日：G54907 红旗坡 08:15 → 阿拉山口/博乐 09:30。</div>
   <div class="flight-actions"><button class="flight-shot" onclick="openFlightImage('assets/flights/zhengzhou.svg','郑州组机票截图')">查看机票截图</button></div>
 </div>
 <div class="pay-summary">
@@ -602,20 +751,25 @@ function overviewContent() {
 </div>
 <div class="section-head">关键提醒</div>
 <div class="pay-summary">
+  <h4>租车安排</h4>
+  <div>6月13日09:00在一嗨租车渝博酒店停车场取车；车型暂定广汽传祺M8大师；6月15日21:00在一嗨租车伊宁机场店还车；当前账号费用1921元。</div>
+  <div>提车和还车都按一嗨App订单页为准。取车时拍车况、油量和里程；还车前预留加油、整理行李和验车时间。</div>
+</div>
+<div class="pay-summary">
   <h4>领证安排</h4>
   <div>正式领证安排在2026年6月15日周一，14日只做游客中心位置踩点和拍照。</div>
 </div>
 <div class="pay-summary">
+  <h4>15日进伊宁路线</h4>
+  <div>15日领证后走果子沟方向进伊宁：果子沟大桥为必到点；解忧公主薰衣草园接进顺路短停，花况好就停45-60分钟，花况一般就压缩；进伊宁后先去机场店还车，再打车到伊宁花田云邸民宿放行李，晚上轻逛伊犁老城/喀赞其和吃饭。</div>
+</div>
+<div class="pay-summary">
   <h4>住宿逻辑</h4>
-  <div>12日晚住博乐市区全季，方便接机和第二天上午轻逛；13、14晚住新疆温泉花间堂·阿日相，把赛里木湖前后的休息、晚餐和洗澡恢复放稳。</div>
+  <div>12日晚住博乐市区全季，方便接机和第二天上午轻逛；13日晚住新疆温泉花间堂·阿日相，接完北京组后先把休息放稳；14日晚已订赛里木湖桔子水晶酒店，住东门/游客中心附近，15日上午就近办理正式领证；15日晚住伊宁花田云邸民宿，先还车再入住，晚上步行逛喀赞其/伊犁老城和吃饭。</div>
 </div>
 <div class="section-head">图例</div>
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:var(--tint-red)"></div>餐厅</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--tint-blue)"></div>景点</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--tint-purple)"></div>酒吧</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--tint-orange)"></div>酒店</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--text-tertiary)"></div>交通</div>
+  ${legendContent()}
 </div>`;
 }
 
@@ -665,7 +819,7 @@ function icon(color, emoji) {
 if (HOTEL.lat) L.marker([HOTEL.lat, HOTEL.lng], { icon: icon('#ff9500','🏨'), zIndexOffset: 1000 }).addTo(map).bindPopup(`<b>${HOTEL.name}</b>`);
 
 let markers = [], polylines = [];
-const emojis = { food:'🍽️', spot:'📍', hotel:'🏨', transport:'🚃', drink:'🍺' };
+const emojis = { food:'🍽️', spot:'📍', hotel:'🏨', transport:'🚃', drink:'🥤' };
 
 function clearMap() { markers.forEach(m=>map.removeLayer(m)); polylines.forEach(p=>map.removeLayer(p)); markers=[]; polylines=[]; }
 
@@ -677,7 +831,7 @@ function showDay(idx) {
     if(pts.length) map.fitBounds(pts, {padding:[30,30]});
     DAYS.slice(1).forEach(d => {
       d.locations.filter(l=>l.time!=='—').forEach(l => {
-        const m = L.circleMarker([l.lat,l.lng], { radius:4, fillColor:d.color, color:'#fff', weight:1.5, fillOpacity:.9 }).addTo(map).bindPopup(`<b>${l.name}</b><br><span style="color:#86868b">${d.label}</span>`);
+        const m = L.circleMarker([l.lat,l.lng], { radius:4, fillColor:locColor(l), color:'#fff', weight:1.5, fillOpacity:.9 }).addTo(map).bindPopup(`<b>${l.name}</b><br><span style="color:#86868b">${d.label}</span>`);
         markers.push(m);
       });
     });
@@ -688,7 +842,7 @@ function showDay(idx) {
   const coords = [];
   day.locations.forEach(l => {
     if(!l.lat) return;
-    const m = L.marker([l.lat,l.lng], { icon: icon(day.color, emojis[l.type]||'📌') }).addTo(map);
+    const m = L.marker([l.lat,l.lng], { icon: icon(locColor(l), emojis[l.type]||'📌') }).addTo(map);
     const gmapQ = l.gmap||encodeURIComponent(l.name+' 新疆');
     m.bindPopup(`<b>${l.name}</b>${l.time!=='—'?'<br><span style="color:#86868b">'+l.time+'</span>':''}<br>${l.desc}${l.budget?'<br><span style="color:#ff9500">'+l.budget+'</span>':''}<br><a href="#" onclick="event.preventDefault();openAS('${l.name.replace(/'/g,"\\'")}',${l.lat},${l.lng},'${gmapQ}')">📍 导航</a>${l.xhs?' · <a href="'+l.xhs+'" target="_blank">📕 小红书</a>':''}`);
     markers.push(m);

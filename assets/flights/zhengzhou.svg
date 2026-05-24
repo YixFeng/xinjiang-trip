@@ -5,10 +5,11 @@
   <line x1="158" y1="405" x2="158" y2="562" stroke="#dce8f3" stroke-width="13" stroke-linecap="round"/>
   <text x="16" y="36" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="34" fill="#000">11:20</text>
   <text x="16" y="204" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="34" fill="#000">16:10</text>
-  <text x="16" y="420" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="34" fill="#000">18:30</text>
-  <text x="16" y="562" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="34" fill="#000">19:40</text>
+  <text x="16" y="420" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="34" fill="#000">08:15</text>
+  <text x="16" y="562" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="34" fill="#000">09:30</text>
   <text x="16" y="114" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" fill="#888">4h50m</text>
-  <text x="16" y="489" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" fill="#888">1h10m</text>
+  <text x="16" y="390" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="22" fill="#d96a18">6月13日</text>
+  <text x="16" y="489" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" fill="#888">1h15m</text>
   <text x="186" y="34" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="34" font-weight="700" fill="#111">新郑机场T2 〉</text>
   <text x="186" y="202" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="34" font-weight="700" fill="#111">红旗坡机场 〉</text>
   <text x="186" y="418" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="34" font-weight="700" fill="#111">红旗坡机场 〉</text>
@@ -16,8 +17,8 @@
   <text x="186" y="98" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="25" fill="#888">新海航福州航空 FU6551｜经济舱｜</text>
   <text x="186" y="128" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="25" fill="#d96a18">波音737(中) 无餐食｜无免费托运行李额</text>
   <rect x="186" y="246" width="556" height="112" rx="8" fill="#f3f6fa"/>
-  <text x="216" y="290" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="25" fill="#666">中转阿克苏，2h20m</text>
-  <text x="216" y="326" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="25" font-weight="700" fill="#e65f18">！ 行李需提取 重新值机 退改须知</text>
+  <text x="216" y="290" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="25" fill="#666">中转阿克苏，16h5m</text>
+  <text x="216" y="326" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="25" font-weight="700" fill="#e65f18">！ 跨天中转</text>
   <text x="186" y="486" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="25" fill="#888">华夏 G54907｜经济舱｜庞巴迪900(小)</text>
   <text x="662" y="486" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="25" fill="#d96a18">无餐食</text>
 </svg>
