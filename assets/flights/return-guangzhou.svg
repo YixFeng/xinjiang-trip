@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="620" viewBox="0 0 800 620">
+  <rect width="800" height="620" fill="#f6f7f9"/>
+  <rect width="800" height="118" fill="#0787d8"/>
+  <text x="400" y="70" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="800" fill="#fff">CZ6883</text>
+  <g transform="translate(18 138)">
+    <rect width="764" height="446" rx="16" fill="#fff"/>
+    <text x="34" y="56" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="700" fill="#666">南方航空 CZ6883 / 6月20日</text>
+    <text x="34" y="108" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="24" fill="#1b8edb">飞行总时长约5小时20分</text>
+    <text x="34" y="170" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="28" fill="#333">计划</text>
+    <text x="34" y="230" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="58" font-weight="800" fill="#0b2348">12:45</text>
+    <text x="34" y="282" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="700" fill="#333">乌鲁木齐天山</text>
+    <text x="680" y="170" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="28" fill="#333">计划</text>
+    <text x="680" y="230" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="58" font-weight="800" fill="#0b2348">18:05</text>
+    <text x="680" y="282" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="700" fill="#333">广州白云T2</text>
+    <path d="M326 224 H455 L471 236" fill="none" stroke="#d7dce4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="389" y="212" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="42" fill="#42aee8">✈</text>
+    <line x1="0" y1="324" x2="764" y2="324" stroke="#d8dee8" stroke-width="2"/>
+    <text x="48" y="374" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" font-weight="800" fill="#0b2348">值机柜台</text>
+    <text x="48" y="420" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" fill="#147df5">M、L</text>
+    <text x="278" y="374" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" font-weight="800" fill="#0b2348">值机截止</text>
+    <text x="278" y="420" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" fill="#147df5">12:15</text>
+    <text x="510" y="374" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" font-weight="800" fill="#0b2348">座位号</text>
+    <text x="510" y="420" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" fill="#147df5">35B</text>
+  </g>
+</svg>

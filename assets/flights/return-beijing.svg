@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="0 0 800 420">
+  <rect width="800" height="420" fill="#f6f7f9"/>
+  <g transform="translate(16 18)">
+    <rect width="768" height="384" rx="16" fill="#fff"/>
+    <text x="34" y="58" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="700" fill="#666">海南航空 HU7146 / 6月20日</text>
+    <text x="34" y="120" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="28" fill="#333">计划</text>
+    <text x="34" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="56" font-weight="800" fill="#2b2c30">14:15</text>
+    <text x="34" y="232" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="600" fill="#333">乌鲁木齐天山机场</text>
+    <text x="690" y="120" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="28" fill="#333">计划</text>
+    <text x="690" y="180" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="56" font-weight="800" fill="#2b2c30">18:00</text>
+    <text x="690" y="232" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="600" fill="#333">首都机场T2</text>
+    <rect x="330" y="138" width="120" height="38" rx="5" fill="#06b66a"/>
+    <text x="390" y="166" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="25" font-weight="700" fill="#fff">航班计划</text>
+    <path d="M318 196 H448 L462 206" fill="none" stroke="#dedede" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="34" y="306" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" font-weight="600" fill="#666">航班动态仅供参考，请以机场发布为准</text>
+  </g>
+</svg>
