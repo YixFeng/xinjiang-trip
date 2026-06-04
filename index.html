@@ -1013,9 +1013,8 @@ function overviewContent() {
 </div>
 <div class="section-head">待办事项</div>
 <div class="pay-summary">
-  <div>1. 用车牌新FF85600预约14日赛里木湖门票，出发前1-2天再核对车牌和订单信息。</div>
-  <div class="warn">2. 需要提前预约15日结婚登记（提前3天）。</div>
-  <div>3. 需要预约新疆博物馆，提前7天放票。</div>
+  <div class="warn">1. 需要提前预约15日结婚登记（提前3天）。</div>
+  <div>2. 需要预约新疆博物馆，提前7天放票。</div>
 </div>
 <div class="section-head">行程概览</div>
 <div class="day-list">${DAYS.slice(1).map(d=>`<div class="card" onclick="go(${d.id})"><div class="name"><span class="dot" style="background:${d.color}"></span>${d.label} · ${d.title}</div><div class="desc">${d.date}</div></div>`).join('')}</div>
