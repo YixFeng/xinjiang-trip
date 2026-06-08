@@ -3,13 +3,13 @@
   <rect width="786" height="138" fill="#147df5"/>
   <g transform="translate(6 6)">
     <rect width="774" height="328" rx="16" fill="#fff"/>
-    <text x="34" y="56" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="700" fill="#666">中国国航 CA1233 / 6月13日</text>
+    <text x="34" y="56" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="700" fill="#666">中国国航 CA1293 / 6月12日</text>
     <text x="32" y="120" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="28" fill="#333">计划</text>
-    <text x="32" y="176" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="52" font-weight="800" fill="#2b2c30">07:15</text>
+    <text x="32" y="176" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="52" font-weight="800" fill="#2b2c30">14:40</text>
     <text x="32" y="228" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="600" fill="#333">首都机场T3</text>
     <text x="694" y="120" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="28" fill="#333">计划</text>
-    <text x="694" y="176" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="52" font-weight="800" fill="#2b2c30">11:55</text>
-    <text x="694" y="228" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="600" fill="#333">克拉玛依机场</text>
+    <text x="694" y="176" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="52" font-weight="800" fill="#2b2c30">18:40</text>
+    <text x="694" y="228" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="600" fill="#333">乌鲁木齐天山机场</text>
     <rect x="336" y="134" width="114" height="38" rx="5" fill="#06b66a"/>
     <text x="393" y="162" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" font-weight="700" fill="#fff">航班计划</text>
     <path d="M322 190 H450 L464 200" fill="none" stroke="#dedede" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -17,12 +17,12 @@
   </g>
   <g transform="translate(6 350)">
     <rect width="774" height="328" rx="16" fill="#fff"/>
-    <text x="34" y="56" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="700" fill="#666">华夏航空 G54190 / 6月13日</text>
+    <text x="34" y="56" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="700" fill="#666">新海航｜天津航空 GS7503 / 6月12日</text>
     <text x="32" y="120" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="28" fill="#333">计划</text>
-    <text x="32" y="176" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="52" font-weight="800" fill="#2b2c30">14:00</text>
-    <text x="32" y="228" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="600" fill="#333">克拉玛依机场</text>
+    <text x="32" y="176" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="52" font-weight="800" fill="#2b2c30">20:50</text>
+    <text x="32" y="228" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="600" fill="#333">乌鲁木齐天山机场</text>
     <text x="694" y="120" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="28" fill="#333">计划</text>
-    <text x="694" y="176" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="52" font-weight="800" fill="#2b2c30">14:45</text>
+    <text x="694" y="176" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="52" font-weight="800" fill="#2b2c30">22:00</text>
     <text x="694" y="228" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="30" font-weight="600" fill="#333">阿拉山口</text>
     <rect x="336" y="134" width="114" height="38" rx="5" fill="#06b66a"/>
     <text x="393" y="162" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial" font-size="26" font-weight="700" fill="#fff">航班计划</text>
